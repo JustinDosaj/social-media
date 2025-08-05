@@ -19,7 +19,7 @@ export class AuthServices {
     private static readonly USER_POOL_ID = process.env.COGNITO_USER_POOL_ID as string
 
     static client = new CognitoIdentityProviderClient({
-        region: process.env.AWS_REGION as string,
+        region: process.env.COGNITO_REGION as string,
     })
 
     static async signUp({email, username, password}: ISignUp) {
