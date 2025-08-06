@@ -74,4 +74,29 @@ export class AuthController {
             next(error)
         }
     }
+
+    static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+
+            const accessToken = req.headers.authorization?.split(" ")[1]
+
+            console.log("Access Token: ", accessToken)
+
+            if (!accessToken) {
+                throw new APIError('Missing access token', 401)
+            }
+            
+            const response = await AuthServices.logout(accessToken)
+
+            console.log("Response: ", response)
+
+            res.status(201).json({
+                success: true,
+                message: 'User logged out successfully'
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    }
 }

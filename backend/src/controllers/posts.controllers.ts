@@ -10,6 +10,8 @@ export class PostControllers {
 
             const user = req.user
 
+            console.log("User: ", user)
+
             if (!user) throw new APIError('Unauthorized user', 401)
 
             const posts = await PostServices.getPostsById(user.sub)

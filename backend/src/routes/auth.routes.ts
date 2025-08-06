@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controllers";
+import { verifyToken } from "../middleware/verifyToken";
 
 const router = Router();
 
-router.post('/signup', AuthController.signUp)
+router.post('/signup', AuthController.signUp);
 
-router.post('/confirm', AuthController.confirmSignUp)
+router.post('/confirm', AuthController.confirmSignUp);
 
-router.post('/signin', AuthController.signIn)
+router.post('/signin', AuthController.signIn);
 
-export default router
+router.post('/logout', verifyToken, AuthController.logout);
+
+export default router;
