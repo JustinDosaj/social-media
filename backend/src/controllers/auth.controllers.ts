@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthServices } from "../services/auth.services";
 import { APIError } from "../config/error";
-
+import { IUser } from "../types/auth";
 
 export class AuthController {
 
@@ -80,19 +80,59 @@ export class AuthController {
 
             const accessToken = req.headers.authorization?.split(" ")[1]
 
-            console.log("Access Token: ", accessToken)
-
             if (!accessToken) {
                 throw new APIError('Missing access token', 401)
             }
             
             const response = await AuthServices.signOut(accessToken)
 
-            console.log("Response: ", response)
-
             res.status(201).json({
                 success: true,
                 message: 'User logged out successfully'
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+        
+        try {
+            const accessToken = req.headers.authorization?.split(" ")[1]
+
+            if (!accessToken) {
+                throw new APIError('Missing access token', 401)
+            }
+
+            const response = await AuthServices.getUser(accessToken)
+
+            if (!response) {
+                throw new APIError('Failed to get user', 500)
+            }
+
+            const attributeMap = response.UserAttributes?.reduce((acc, attr) => {
+                if (attr.Name && attr.Value) {
+                    acc[attr.Name] = attr.Value;
+                }
+                return acc
+            }, {} as Record<string, string>) || {}
+
+            // const email = response.UserAttributes?.find(attr => attr.Name === 'email')?.Value || ''
+            // const sub = response.UserAttributes?.find(attr => attr.Name === 'sub')?.Value || ''
+            // const username = response.Username || ''
+
+            const user: IUser = {
+                email: attributeMap.email || '',
+                sub: attributeMap.sub || '',
+                username: response.Username || ''
+            }
+
+            res.status(200).json({
+                success: true,
+                data: {
+                    user: user
+                }
             })
 
         } catch (error) {

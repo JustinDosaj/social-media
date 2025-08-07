@@ -7,7 +7,8 @@ import { CognitoIdentityProviderClient,
     ConfirmSignUpCommand,
     InitiateAuthCommand,
     InitiateAuthCommandInput, 
-    GlobalSignOutCommand
+    GlobalSignOutCommand,
+    GetUserCommand
 } from "@aws-sdk/client-cognito-identity-provider";
 import { APIError } from '../config/error';
 import dotenv from 'dotenv'
@@ -94,5 +95,18 @@ export class AuthServices {
         await this.client.send(command);
 
         return;
+    }
+
+    static async getUser(accessToken: string) {
+        
+        const command = new GetUserCommand({
+            AccessToken: accessToken
+        })
+
+        const response = await this.client.send(command)
+
+        console.log(response)
+
+        return response
     }
 }

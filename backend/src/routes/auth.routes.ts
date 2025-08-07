@@ -12,4 +12,6 @@ router.post('/signin', AuthController.signIn);
 
 router.post('/logout', verifyToken, AuthController.signOut);
 
+router.get('/', verifyToken, AuthController.getUser)
+
 export default router;
