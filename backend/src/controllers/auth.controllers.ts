@@ -75,7 +75,7 @@ export class AuthController {
         }
     }
 
-    static async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+    static async signOut(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
 
             const accessToken = req.headers.authorization?.split(" ")[1]
@@ -86,7 +86,7 @@ export class AuthController {
                 throw new APIError('Missing access token', 401)
             }
             
-            const response = await AuthServices.logout(accessToken)
+            const response = await AuthServices.signOut(accessToken)
 
             console.log("Response: ", response)
 

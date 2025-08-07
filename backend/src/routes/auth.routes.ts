@@ -10,6 +10,6 @@ router.post('/confirm', AuthController.confirmSignUp);
 
 router.post('/signin', AuthController.signIn);
 
-router.post('/logout', verifyToken, AuthController.logout);
+router.post('/logout', verifyToken, AuthController.signOut);
 
 export default router;

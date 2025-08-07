@@ -85,7 +85,7 @@ export class AuthServices {
         return response
     }
 
-    static async logout(accessToken: string) {
+    static async signOut(accessToken: string) {
 
         const command = new GlobalSignOutCommand({
             AccessToken: accessToken
