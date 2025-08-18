@@ -118,10 +118,6 @@ export class AuthController {
                 return acc
             }, {} as Record<string, string>) || {}
 
-            // const email = response.UserAttributes?.find(attr => attr.Name === 'email')?.Value || ''
-            // const sub = response.UserAttributes?.find(attr => attr.Name === 'sub')?.Value || ''
-            // const username = response.Username || ''
-
             const user: IUser = {
                 email: attributeMap.email || '',
                 sub: attributeMap.sub || '',
