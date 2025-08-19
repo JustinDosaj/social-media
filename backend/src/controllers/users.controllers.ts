@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { ProfileServices } from "../services/profiles.services";
+import { UserServices } from "../services/users.services";
 import { APIError } from "../config/error";
 
-export class ProfileControllers {
+export class UserControllers {
     
     static async getProfileByUsername(req: Request, res: Response, next: NextFunction) {
 
@@ -12,7 +12,7 @@ export class ProfileControllers {
 
         try {
 
-            const profile = await ProfileServices.getProfileByUsername(username)
+            const profile = await UserServices.getProfileByUsername(username)
             
             if (!profile) throw new APIError(`Could not find ${username} profile`, 404)
             

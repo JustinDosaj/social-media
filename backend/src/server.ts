@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import authRoutes from './routes/auth.routes';
 import postsRoutes from './routes/posts.routes';
-import profilesRoutes from './routes/profiles.routes';
+import usersRoutes from './routes/users.routes';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes)
 
 app.use('/api/posts', postsRoutes)
 
-app.use('/api/profiles', profilesRoutes)
+app.use('/api/users', usersRoutes)
 
 app.use(errorHandler)
 

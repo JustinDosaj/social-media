@@ -1,5 +1,5 @@
 
-export class ProfileServices {
+export class UserServices {
     
     static async getProfileByUsername(username: string) {
 
