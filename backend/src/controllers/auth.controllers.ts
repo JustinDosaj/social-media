@@ -47,7 +47,7 @@ export class AuthController {
         }
     }
 
-    static async signIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+    static async login(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
 
             const { email, password } = req.body
@@ -56,7 +56,7 @@ export class AuthController {
                 throw new APIError("Email and password required", 400)
             }
 
-            const response = await AuthServices.signIn({email, password})
+            const response = await AuthServices.login({email, password})
 
             if (!response) {
                 throw new APIError("Failed to authenticate user", 400)

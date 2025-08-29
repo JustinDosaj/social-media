@@ -68,7 +68,7 @@ export class AuthServices {
 
     }
 
-    static async signIn({email, password}: ISignIn) {
+    static async login({email, password}: ISignIn) {
         
         const params: InitiateAuthCommandInput = {
             AuthFlow: "USER_PASSWORD_AUTH",

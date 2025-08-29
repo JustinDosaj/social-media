@@ -8,7 +8,7 @@ router.post('/signup', AuthController.signUp);
 
 router.post('/confirm', AuthController.confirmSignUp);
 
-router.post('/signin', AuthController.signIn);
+router.post('/login', AuthController.login);
 
 router.post('/logout', verifyToken, AuthController.signOut);
 
