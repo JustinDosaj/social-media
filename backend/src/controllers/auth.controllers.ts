@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { AuthServices } from "../services/auth.services";
 import { APIError } from "../config/error";
 import { IUser } from "../types/auth";
+import { AuthServices } from "../services/auth";
 
 export class AuthController {
 
@@ -14,7 +14,7 @@ export class AuthController {
                 throw new APIError("Email and password required", 400)
             }
 
-            await AuthServices.signUp({username, email, password})
+            await AuthServices.Registration.signUp({username, email, password})
             
             res.status(201).json({
                 success: true,
@@ -35,7 +35,7 @@ export class AuthController {
                 throw new APIError("Username and code required")
             }
 
-            await AuthServices.confirmSignUp({username, code})
+            await AuthServices.Registration.confirmSignUp({username, code})
 
             res.status(201).json({
                 success: true,
@@ -56,7 +56,7 @@ export class AuthController {
                 throw new APIError("Email and password required", 400)
             }
 
-            const response = await AuthServices.login({email, password})
+            const response = await AuthServices.Session.login({email, password})
 
             if (!response) {
                 throw new APIError("Failed to authenticate user", 400)
@@ -84,7 +84,7 @@ export class AuthController {
                 throw new APIError('Missing access token', 401)
             }
             
-            const response = await AuthServices.signOut(accessToken)
+            const response = await AuthServices.Session.signOut(accessToken)
 
             res.status(201).json({
                 success: true,
@@ -105,7 +105,7 @@ export class AuthController {
                 throw new APIError('Missing access token', 401)
             }
 
-            const response = await AuthServices.getUser(accessToken)
+            const response = await AuthServices.User.getUser(accessToken)
 
             if (!response) {
                 throw new APIError('Failed to get user', 500)

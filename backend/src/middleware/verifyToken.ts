@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
+import { USER_POOL_ID, CLIENT_ID } from "../clients/cognito";
 
-const REGION = process.env.COGNITO_REGION as string
-const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID as string
-const CLIENT_ID = process.env.COGNITO_CLIENT_ID as string
+// const REGION = process.env.COGNITO_REGION as string
+// const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID as string
+// const CLIENT_ID = process.env.COGNITO_CLIENT_ID as string
 
 const verifier = CognitoJwtVerifier.create({
     userPoolId: USER_POOL_ID,
