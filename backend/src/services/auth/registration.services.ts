@@ -9,6 +9,7 @@ import { SignUpCommand,
 import { APIError } from "../../config/error";
 
 export async function signUp({email, username, password}: ISignUp) {
+    
     const listParams: ListUsersCommandInput = {
         UserPoolId: USER_POOL_ID,
         Filter: `email = "${email}"`

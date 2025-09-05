@@ -18,7 +18,7 @@ export function errorHandler(error: unknown, req: Request, res: Response, next: 
     }
 
     res.status(status).json({
-        status: false,
+        success: false,
         error: message
     })
 }
