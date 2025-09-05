@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { PostServices } from "../services/posts.services";
+//import { PostServices } from "../services/posts.services";
+import { PostServices } from "../services/posts";
 import { APIError } from "../config/error";
 
 export class PostControllers {
@@ -14,7 +15,7 @@ export class PostControllers {
 
             if (!user) throw new APIError('Unauthorized user', 401)
 
-            const posts = await PostServices.getPostsById(user.sub)
+            const posts = await PostServices.CRUD.getPostsById(user.sub)
 
             if (!posts || posts.length === 0) throw new APIError('Could not find posts', 404)
 
