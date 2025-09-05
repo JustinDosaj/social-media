@@ -15,7 +15,7 @@ export class PostControllers {
 
             if (!user) throw new APIError('Unauthorized user', 401)
 
-            const posts = await PostServices.CRUD.getPostsById(user.sub)
+            const posts = await PostServices.Posts.getPostsById(user.sub)
 
             if (!posts || posts.length === 0) throw new APIError('Could not find posts', 404)
 

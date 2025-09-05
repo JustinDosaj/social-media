@@ -1,5 +1,5 @@
-import * as CRUD from "./crud.services"
+import * as Posts from "./posts.services"
 
 export const PostServices = {
-    CRUD
+    Posts
 }
