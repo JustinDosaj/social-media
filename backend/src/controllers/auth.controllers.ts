@@ -105,7 +105,7 @@ export class AuthController {
                 throw new APIError('Missing access token', 401)
             }
 
-            const response = await AuthServices.User.getUser(accessToken)
+            const response = await AuthServices.Session.getUser(accessToken)
 
             if (!response) {
                 throw new APIError('Failed to get user', 500)

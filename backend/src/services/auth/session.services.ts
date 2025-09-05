@@ -1,6 +1,6 @@
 import { ISignIn } from "../../types/auth";
 import { cognitoClient, CLIENT_ID } from "../../clients/cognito";
-import { InitiateAuthCommandInput, InitiateAuthCommand, GlobalSignOutCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { InitiateAuthCommandInput, InitiateAuthCommand, GlobalSignOutCommand, GetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 
 export async function login({email, password}: ISignIn) {
     const params: InitiateAuthCommandInput = {
@@ -28,4 +28,15 @@ export async function signOut(accessToken: string) {
     await cognitoClient.send(command);
 
     return;
+}
+
+export async function getUser(accessToken: string) {
+    
+    const command = new GetUserCommand({
+        AccessToken: accessToken
+    })
+
+    const response = await cognitoClient.send(command)
+
+    return response
 }
