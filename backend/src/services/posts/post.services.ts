@@ -1,3 +1,5 @@
+// Create, Read, Update and Delete Posts
+
 export async function getPostsById(userId: string) {
 
     console.log('Mock post retrieval with userId: ', userId)

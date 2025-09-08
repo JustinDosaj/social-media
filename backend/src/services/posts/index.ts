@@ -1,4 +1,4 @@
-import * as Posts from "./posts.services"
+import * as Posts from "./post.services"
 
 export const PostServices = {
     Posts

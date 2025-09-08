@@ -30,7 +30,7 @@ export async function signOut(accessToken: string) {
     return;
 }
 
-export async function getUser(accessToken: string) {
+export async function getUserSession(accessToken: string) {
     
     const command = new GetUserCommand({
         AccessToken: accessToken
