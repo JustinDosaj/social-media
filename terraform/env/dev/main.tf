@@ -9,7 +9,6 @@ provider "aws" {
   }
 }
 
-
 module "cognito_module" {
   source      = "../../modules/cognito"
   environment = var.environment
