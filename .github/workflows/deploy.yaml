@@ -68,17 +68,17 @@ jobs:
         run: terraform fmt -check -recursive
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform -chdir=terraform/env/dev init
 
       - name: Terraform Validate
-        run: terraform validate
+        run: terraform -chdir=terraform/env/dev validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform -chdir=terraform/env/dev plan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -auto-approve tfplan
+        run: terraform -chdir=terraform/env/dev apply -auto-approve tfplan
 
     env:
       AWS_REGION: us-west-1
