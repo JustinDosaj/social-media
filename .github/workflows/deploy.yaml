@@ -78,7 +78,7 @@ jobs:
         run: terraform -chdir=terraform/env/dev validate
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform/env/dev plan
+        run: terraform -chdir=terraform/env/dev plan -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
