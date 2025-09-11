@@ -2,15 +2,22 @@ import { Request, Response, NextFunction } from "express";
 import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { USER_POOL_ID, CLIENT_ID } from "../clients/cognito";
 
-// const REGION = process.env.COGNITO_REGION as string
-// const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID as string
-// const CLIENT_ID = process.env.COGNITO_CLIENT_ID as string
+let verifier: ReturnType<typeof CognitoJwtVerifier.create> | null = null
 
-const verifier = CognitoJwtVerifier.create({
-    userPoolId: USER_POOL_ID,
-    tokenUse: 'access',
-    clientId: CLIENT_ID
-})
+function getVerifier() {
+    if (!verifier) {
+        if (!USER_POOL_ID || !CLIENT_ID) {
+            throw new Error("Cognito not initialized. Call initCognito() before using verifier.");
+        }
+
+        verifier = CognitoJwtVerifier.create({
+            userPoolId: USER_POOL_ID,
+            clientId: CLIENT_ID,
+            tokenUse: "access"
+        });
+    }
+    return verifier;
+}
 
 export async function verifyToken(req: Request, res: Response, next: NextFunction) {
 
@@ -26,7 +33,7 @@ export async function verifyToken(req: Request, res: Response, next: NextFunctio
     const token = authHeader.split(' ')[1]
 
     try {
-        const payload = await verifier.verify(token);
+        const payload = await getVerifier().verify(token);
         req.user = payload;
         next();
     } catch (error) {
