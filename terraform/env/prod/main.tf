@@ -1,17 +1,17 @@
 provider "aws" {
-    region = var.region
-    profile = var.aws-profile
+  region  = var.region
+  profile = var.aws-profile
 
-    default_tags {
-        tags = {
-            Environment = var.environment
-            Project = "social-media"
-        }
+  default_tags {
+    tags = {
+      Environment = var.environment
+      Project     = "social-media"
     }
+  }
 }
 
 
 module "cognito_module" {
-    source = "../../modules/cognito"
-    environment = var.environment
+  source      = "../../modules/cognito"
+  environment = var.environment
 }
