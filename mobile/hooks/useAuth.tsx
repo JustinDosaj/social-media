@@ -7,6 +7,7 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: (token: string) => Promise<void>;
+    user: IUser | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,9 +25,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const checkAuthStatus = async () => {
         try {
             setIsLoading(true);
-            // Check Auth Code here
-            // For now, just set to false
-            setIsAuthenticated(false);
+            if (user == null) {
+                setIsAuthenticated(false);
+            } else {
+                setIsAuthenticated(true)
+            }
         } catch (error) {
             console.error('Error checking auth status: ', error);
             setIsAuthenticated(false);
@@ -38,9 +41,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const login = async (email: string, password: string) => {
         try {
             
-            const { accessToken, username } = await loginRequest(email, password)
+            const { user } = await loginRequest(email, password)
+
+            const loggedInUser: IUser = {
+                email,
+                token: user.AccessToken
+            }
+            
+            console.log(loggedInUser)
+
+            setUser(loggedInUser)
             setIsAuthenticated(true);
         } catch (error) {
+            setIsAuthenticated(false)
             console.error('Error saving auth token: ', error);
         }
     };
@@ -55,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

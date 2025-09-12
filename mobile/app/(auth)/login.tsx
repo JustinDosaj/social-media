@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'expo-router';
 import {
   View,
   Text,
@@ -11,16 +12,16 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
 
-export default function SignupScreen() {
+export default function LoginScreen() {
+  const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { login } = useAuth()
+  const { login, isAuthenticated } = useAuth()
 
   const handleLogin = async () => {
     if (!validateForm()) {
@@ -28,7 +29,11 @@ export default function SignupScreen() {
     }
 
     try {
+      await login(email, password)
 
+      if (isAuthenticated) {
+        router.replace('/(tabs)')
+      }
     } catch(error) {
       Alert.alert('Error', 'Login failed. Please try again.');
     }
@@ -54,22 +59,10 @@ export default function SignupScreen() {
     return true;
   };
 
-  const handleGoogleSignup = () => {
+  const handleGoogleSignup = async () => {
     // Add your Google signup logic here
     console.log('Google signup attempt');
   };
-
-  const getPasswordStrength = () => {
-    if (password.length === 0) return { strength: 0, text: '', color: '#E5E7EB' };
-    if (password.length < 6) return { strength: 1, text: 'Weak', color: '#EF4444' };
-    if (password.length < 8) return { strength: 2, text: 'Fair', color: '#F59E0B' };
-    if (password.length >= 8 && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      return { strength: 3, text: 'Strong', color: '#10B981' };
-    }
-    return { strength: 2, text: 'Fair', color: '#F59E0B' };
-  };
-
-  const passwordStrength = getPasswordStrength();
 
   return (
     <SafeAreaView style={styles.container}>

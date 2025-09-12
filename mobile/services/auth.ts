@@ -1,21 +1,25 @@
 
 
-const API_URL = `${process.env.API_DOMAIN}/api/auth`
+const API_URL = `${process.env.EXPO_PUBLIC_API_URL}/api/auth`
 
 export async function loginRequest(email: string, password: string) {
+
+    console.log("TEST: ", `${API_URL}/login`)
+    
     const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify({email, password})
+        body: JSON.stringify({email, password}),
+        credentials: 'include'
     })
 
-    const data = await response.json()
+    const responseObj = await response.json()
 
-    if (!response.ok || data.success === false ) {
-        throw new Error(data.message || "Login Failed")
+    if (!response.ok || responseObj.success === false ) {
+        throw new Error(responseObj.message || "Login Failed")
     }
 
-    return data
+    return responseObj.data
 }

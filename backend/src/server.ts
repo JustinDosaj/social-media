@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import cors from "cors"
 import authRoutes from './routes/auth.routes';
 import postsRoutes from './routes/posts.routes';
 import usersRoutes from './routes/users.routes';
@@ -9,6 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json())
+
+app.use(cors({origin: true, credentials: true}))
 
 app.use('/api/health', async (req: Request, res: Response) => {
     res.status(200).json({
@@ -31,5 +34,3 @@ initCognito()
     console.error('Failed to init Cognito', err);
     process.exit(1);
   });
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
