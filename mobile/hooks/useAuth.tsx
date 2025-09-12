@@ -1,17 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { loginRequest } from "@/services/auth";
+import { IUser } from "@/types/user";
 
 interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
-    login: (token: string) => Promise<void>;
-    logout: () => Promise<void>;
+    login: (email: string, password: string) => Promise<void>;
+    logout: (token: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+    
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true); // Should start as true
+    const [user, setUser] = useState<IUser | null>(null)
 
     useEffect(() => {
         checkAuthStatus();
@@ -31,16 +35,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const login = async (token: string) => {
+    const login = async (email: string, password: string) => {
         try {
-            // Save token logic here
+            
+            const { accessToken, username } = await loginRequest(email, password)
             setIsAuthenticated(true);
         } catch (error) {
             console.error('Error saving auth token: ', error);
         }
     };
 
-    const logout = async () => {
+    const logout = async (token: string) => {
         try {
             // Remove token logic here
             setIsAuthenticated(false);

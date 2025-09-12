@@ -19,6 +19,6 @@ export function errorHandler(error: unknown, req: Request, res: Response, next: 
 
     res.status(status).json({
         success: false,
-        error: message
+        message: message
     })
 }

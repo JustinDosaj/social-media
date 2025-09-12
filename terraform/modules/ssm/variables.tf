@@ -3,6 +3,11 @@ variable "environment" {
   default = "dev"
 }
 
+variable "region" {
+  type    = string
+  default = "dev"
+}
+
 variable "cognito_user_pool_id" {
   type    = string
   default = "dev"
@@ -13,7 +18,3 @@ variable "cognito_client_id" {
   default = "dev"
 }
 
-variable "region" {
-  type    = string
-  default = "dev"
-}
