@@ -1,5 +1,13 @@
+provider "aws" {
+  region = var.region
+}
+
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "${var.environment}-social-media-tf-states"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 
   tags = {
     Environment = "${var.environment}"
@@ -17,19 +25,25 @@ resource "aws_s3_bucket_versioning" "terraform_state_versioning" {
 }
 
 
-resource "aws_s3_bucket_ownership_controls" "terraform_state_ownership_controls" {
+# Enable server-side encryption
+resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state_encryption" {
   bucket = aws_s3_bucket.terraform_state.id
+
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
-
-resource "aws_s3_bucket_acl" "terraform_state_acl" {
-  depends_on = [aws_s3_bucket_ownership_controls.terraform_state_ownership_controls]
-
+# Block public access
+resource "aws_s3_bucket_public_access_block" "terraform_state_pab" {
   bucket = aws_s3_bucket.terraform_state.id
-  acl    = "private"
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
