@@ -11,11 +11,11 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "dev-social-media-tf-states"
-    key = "dev/social-media/terraform.tfstate"
-    region = "us-west-1"
+    bucket         = "dev-social-media-tf-states"
+    key            = "dev/social-media/terraform.tfstate"
+    region         = "us-west-1"
     dynamodb_table = "dev-social-media-tf-locks"
-    encrypt = true
+    encrypt        = true
   }
 }
 
