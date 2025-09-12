@@ -31,15 +31,3 @@ module "ssm_module" {
   cognito_user_pool_id = module.cognito_module.cognito_user_pool_id
   cognito_client_id    = module.cognito_module.cognito_client_id
 }
-
-# module "s3_module" {
-#   source = "../../modules/s3"
-#   environment          = var.environment
-#   region               = var.region
-# }
-
-# module "dynamodb_module" {
-#   source = "../../modules/dynamodb"
-#   environment          = var.environment
-#   region               = var.region
-# }
