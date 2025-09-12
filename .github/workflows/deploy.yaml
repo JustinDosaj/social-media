@@ -22,11 +22,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build backend
+      - name: Build Backend
         run: npm run build --if-present
+
+      - name: Run Backend Tests
+        run: npm test
 
   mobile:
     name: Mobile (React Native)
