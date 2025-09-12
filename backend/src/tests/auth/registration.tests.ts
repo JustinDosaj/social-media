@@ -1,3 +1,5 @@
+jest.mock('../../clients/cognito');
+
 import { signUp, confirmSignUp } from '../../services/auth/registration.services';
 import { cognitoClient } from '../../clients/cognito';
 import { APIError } from '../../config/error';
@@ -28,7 +30,7 @@ describe('Auth Registration Services', () => {
     // Mock SignUpCommand response
     (cognitoClient.send as jest.Mock).mockResolvedValueOnce({ UserConfirmed: false });
 
-    const response = await signUp({ email: 'user@example.com', username: 'user', password: 'password!' });
+    const response = await signUp({ email: 'new@example.com', username: 'newuser', password: 'Password123!' });
     expect(response).toEqual({ UserConfirmed: false });
     expect(cognitoClient.send).toHaveBeenCalledTimes(2);
   });
