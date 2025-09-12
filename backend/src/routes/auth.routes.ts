@@ -10,7 +10,7 @@ router.post('/confirm', AuthControllers.Registration.confirmSignUp);
 
 router.post('/login', AuthControllers.Session.login);
 
-router.post('/logout', verifyToken, AuthControllers.Session.signOut);
+router.post('/logout', verifyToken, AuthControllers.Session.logout);
 
 router.get('/', verifyToken, AuthControllers.Session.getUser)
 

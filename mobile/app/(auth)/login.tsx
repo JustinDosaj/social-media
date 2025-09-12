@@ -84,8 +84,8 @@ export default function SignupScreen() {
           <View style={styles.content}>
             {/* Header */}
             <View style={styles.header}>
-              <Text style={styles.title}>Create Account</Text>
-              <Text style={styles.subtitle}>Sign up to get started</Text>
+              <Text style={styles.title}>Login</Text>
+              <Text style={styles.subtitle}>Enter your information to login</Text>
             </View>
 
             {/* Form */}
@@ -134,26 +134,6 @@ export default function SignupScreen() {
                     />
                   </TouchableOpacity>
                 </View>
-                
-                {/* Password Strength Indicator */}
-                {password.length > 0 && (
-                  <View style={styles.passwordStrength}>
-                    <View style={styles.strengthBar}>
-                      <View 
-                        style={[
-                          styles.strengthFill, 
-                          { 
-                            width: `${(passwordStrength.strength / 3) * 100}%`,
-                            backgroundColor: passwordStrength.color 
-                          }
-                        ]} 
-                      />
-                    </View>
-                    <Text style={[styles.strengthText, { color: passwordStrength.color }]}>
-                      {passwordStrength.text}
-                    </Text>
-                  </View>
-                )}
               </View>
 
               {/* Sign Up Button */}

@@ -19,7 +19,7 @@ export async function login({email, password}: ISignIn) {
     return response
 }
 
-export async function signOut(accessToken: string) {
+export async function logout(accessToken: string) {
 
     const command = new GlobalSignOutCommand({
         AccessToken: accessToken

@@ -31,7 +31,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     }
 }
 
-export async function signOut(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
 
         const accessToken = req.headers.authorization?.split(" ")[1]
@@ -40,7 +40,7 @@ export async function signOut(req: Request, res: Response, next: NextFunction): 
             throw new APIError('Missing access token', 401)
         }
         
-        const response = await AuthServices.Session.signOut(accessToken)
+        const response = await AuthServices.Session.logout(accessToken)
 
         res.status(201).json({
             success: true,
