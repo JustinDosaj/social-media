@@ -73,8 +73,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const signUp = async (email: string, username: string, password: string) => {
-        await AuthServices.signUp(email, username, password)
+    const signUp = async (email: string, password: string) => {
+        await AuthServices.signUp(email, password)
         router.push('/(auth)')
     }
 
