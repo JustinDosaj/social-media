@@ -7,9 +7,10 @@ import { SignUpCommand,
     ConfirmSignUpCommand 
 } from "@aws-sdk/client-cognito-identity-provider";
 import { APIError } from "../../config/error";
+import { v4 as uuidv4 } from "uuid"
 
-export async function signUp({email, username, password}: ISignUp) {
-    
+export async function signUp({email, password}: ISignUp) {
+
     const listParams: ListUsersCommandInput = {
         UserPoolId: USER_POOL_ID,
         Filter: `email = "${email}"`
@@ -18,29 +19,45 @@ export async function signUp({email, username, password}: ISignUp) {
     const listCommand = new ListUsersCommand(listParams)
     const result = await cognitoClient.send(listCommand)
 
+    // Dynamic import to uuid library
+    const internalUsername = uuidv4();
+
     if (result.Users && result.Users.length > 0) {
         throw new APIError('Email already exists', 409)
     }
 
     const signUpParams: SignUpCommandInput = {
         ClientId: CLIENT_ID,
-        Username: username,
+        Username: internalUsername,
         Password: password,
         UserAttributes: [{Name: 'email', Value: email}]
     }
 
     const command = new SignUpCommand(signUpParams)
     
-    const response = cognitoClient.send(command)
+    const response = await cognitoClient.send(command)
 
     return response
 }
 
-export async function confirmSignUp({username, code}: IConfirmSignUp) {
+export async function confirmSignUp({email, code}: IConfirmSignUp) {
+
+    const listCommand = new ListUsersCommand({
+        UserPoolId: USER_POOL_ID,
+        Filter: `email = "${email}"`
+    })
+
+    const listResponse = await cognitoClient.send(listCommand)
+
+    if (!listResponse.Users || listResponse.Users.length === 0) {
+        throw new APIError('User not found', 404)
+    }
+
+    const internalUsername = listResponse.Users[0].Username!
 
     const params = {
         ClientId: CLIENT_ID,
-        Username: username,
+        Username: internalUsername,
         ConfirmationCode: code,
     }
 
