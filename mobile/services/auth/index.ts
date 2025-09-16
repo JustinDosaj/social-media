@@ -1,5 +1,6 @@
-import { login } from "./session"
+import { login, logout } from "./session"
 
 export const AuthServices = {
-    login
+    login,
+    logout
 }

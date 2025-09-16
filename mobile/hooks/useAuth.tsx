@@ -64,8 +64,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = async (token: string) => {
         try {
-            // Remove token logic here
+            await AuthServices.logout(token)
             setIsAuthenticated(false);
+            router.push('/(auth)')
         } catch (error) {
             console.error('Error removing auth token: ', error);
         }

@@ -1,18 +1,16 @@
 import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function HomeScreen() {
 
-  const router = useRouter()
   const { user, logout } = useAuth()
   
   const handleLogout = async () => {
     try {
       await logout(user?.token || '')
-      router.replace('/(auth)/login')
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert('Error', 'Failed to logout. Please try again')
+      console.error(error)
     }
   }
 
