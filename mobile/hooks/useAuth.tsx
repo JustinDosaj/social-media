@@ -8,6 +8,7 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: (token: string) => Promise<void>;
+    signUp: (email: string, username: string, password: string) => Promise<void>
     user: IUser | null
 }
 
@@ -72,8 +73,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const signUp = async (email: string, username: string, password: string) => {
+        await AuthServices.signUp(email, username, password)
+        router.push('/(auth)')
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, signUp }}>
             {children}
         </AuthContext.Provider>
     );

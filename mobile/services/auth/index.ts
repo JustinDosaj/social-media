@@ -1,6 +1,8 @@
+import { signUp } from "./registration"
 import { login, logout } from "./session"
 
 export const AuthServices = {
     login,
-    logout
+    logout,
+    signUp
 }

@@ -21,19 +21,14 @@ export default function LoginScreen() {
   const [password, setPassword] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const { login, isAuthenticated } = useAuth()
+  const { login } = useAuth()
 
   const handleLogin = async () => {
-    if (!validateForm()) {
-      return
-    }
+    if (!validateForm()) return;
 
     try {
       await login(email, password)
 
-      if (isAuthenticated) {
-        router.replace('/(tabs)')
-      }
     } catch(error) {
       Alert.alert('Error', 'Login failed. Please try again.');
     }

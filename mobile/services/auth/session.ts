@@ -28,8 +28,6 @@ export async function login(email: string, password: string) {
 
 export async function logout(token: string) {
 
-    console.log("User Token: ", token)
-
     const response = await axios({
         method: 'post',
         url: `${API_URL}/logout`,
@@ -40,5 +38,10 @@ export async function logout(token: string) {
         withCredentials: true
     })
 
-    console.log("Logout Response: ", response.data)
+    const payload = response.data
+
+    if (!payload.success) {
+        throw new Error(payload.message || "Login Failed")
+    }
+
 }

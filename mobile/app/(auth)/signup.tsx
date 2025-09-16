@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function SignupScreen() {
   const [email, setEmail] = useState('');
@@ -20,6 +21,17 @@ export default function SignupScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+
+  // Temp Username --> trying to get rid of this for signup requirement
+  const username = 'temp'
+
+  const { signUp } = useAuth()
+
+  const handleSignup = async () => {
+    if (!validateForm()) return;
+    await signUp(email, username, password)
+  };
+
 
   const validateForm = () => {
     if (!email || !password || !confirmPassword) {
@@ -44,13 +56,6 @@ export default function SignupScreen() {
     }
 
     return true;
-  };
-
-  const handleSignup = () => {
-    if (!validateForm()) return;
-    
-    // Add your signup logic here
-    console.log('Signup attempt:', { email, password });
   };
 
   const handleGoogleSignup = () => {
