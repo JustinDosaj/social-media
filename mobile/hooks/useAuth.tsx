@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest } from "@/services/auth";
+import { AuthServices } from "@/services/auth";
 import { IUser } from "@/types/user";
+import { useRouter } from "expo-router";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -14,6 +15,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     
+    const router = useRouter()
+
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true); // Should start as true
     const [user, setUser] = useState<IUser | null>(null)
@@ -41,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const login = async (email: string, password: string) => {
         try {
             
-            const { user } = await loginRequest(email, password)
+            const { user } = await AuthServices.login(email, password)
 
             const loggedInUser: IUser = {
                 email,
@@ -52,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             setUser(loggedInUser)
             setIsAuthenticated(true);
+            router.push('/(tabs)')
         } catch (error) {
             setIsAuthenticated(false)
             console.error('Error saving auth token: ', error);
