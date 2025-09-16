@@ -8,7 +8,7 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: (token: string) => Promise<void>;
-    signUp: (email: string, username: string, password: string) => Promise<void>
+    signUp: (email: string, password: string) => Promise<void>
     user: IUser | null
 }
 

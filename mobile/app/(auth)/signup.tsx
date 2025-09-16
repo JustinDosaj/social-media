@@ -23,13 +23,12 @@ export default function SignupScreen() {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
   // Temp Username --> trying to get rid of this for signup requirement
-  const username = 'temp'
 
   const { signUp } = useAuth()
 
   const handleSignup = async () => {
     if (!validateForm()) return;
-    await signUp(email, username, password)
+    await signUp(email, password)
   };
 
 
