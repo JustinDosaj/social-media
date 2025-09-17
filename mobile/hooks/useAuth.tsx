@@ -8,8 +8,9 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: (token: string) => Promise<void>;
-    signUp: (email: string, password: string) => Promise<void>
-    user: IUser | null
+    signUp: (email: string, password: string) => Promise<void>;
+    confirmSignUp: (email: string, code: string) => Promise<void>;
+    user: IUser | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,11 +76,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const signUp = async (email: string, password: string) => {
         await AuthServices.signUp(email, password)
-        router.push('/(auth)')
+        router.push('/(auth)/confirm')
+    }
+
+    const confirmSignUp = async (email: string, code: string) => {
+        console.log("Email: ", email)
+        await AuthServices.confirmSignUp(email, code)
+        router.push('/(tabs)')
     }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, signUp }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout, signUp, confirmSignUp }}>
             {children}
         </AuthContext.Provider>
     );

@@ -32,6 +32,7 @@ export default function LoginScreen() {
 
     } catch(error) {
       Alert.alert('Error', 'Login failed. Please try again.');
+      console.error(error)
     }
   }
 

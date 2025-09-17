@@ -23,3 +23,24 @@ export async function signUp(email: string, password: string) {
         throw new Error(payload.message || "Sign Up Failed")
     }
 }
+
+export async function confirmSignUp(email: string, code: string) {
+    const response = await axios({
+        method: 'post',
+        url: `${API_URL}/confirm`,
+        data: {
+            email,
+            code
+        },
+        headers: {
+            "Content-Type": "application/json"
+        },
+        withCredentials: true
+    })
+
+    const payload = response.data
+
+    if (!payload.success) {
+        throw new Error(payload.message || "Problem Confirming Sign Up")
+    }
+}
