@@ -17,13 +17,17 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         if (!response) {
             throw new APIError("Failed to authenticate user", 400)
         }
+        
+        const user = {
+            accessToken: response.AuthenticationResult?.AccessToken,
+            refreshToken: response.AuthenticationResult?.RefreshToken,
+            expiresIn: response.AuthenticationResult?.ExpiresIn
+        }
 
         res.status(200).json({
             success: true,
             message: "Successfully signed user in",
-            data: { 
-                user: response.AuthenticationResult 
-            }
+            data: { user }
         })
         
     } catch (error) {

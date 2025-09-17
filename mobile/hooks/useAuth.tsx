@@ -50,10 +50,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
             const loggedInUser: IUser = {
                 email,
-                token: user.AccessToken
+                token: user.accessToken
             }
-            
-            console.log(loggedInUser)
 
             setUser(loggedInUser)
             setIsAuthenticated(true);

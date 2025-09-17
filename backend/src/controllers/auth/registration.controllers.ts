@@ -11,11 +11,16 @@ export async function signUp(req: Request, res: Response, next: NextFunction): P
             throw new APIError("Email and password required", 400)
         }
 
-        await AuthServices.Registration.signUp({email, password})
+        const response = await AuthServices.Registration.signUp({email, password})
         
+        const user = {
+            sub: response.UserSub
+        }
+
         res.status(201).json({
             success: true,
-            message: 'User registered successfully. Please confirm your email'
+            message: 'User registered successfully. Please confirm your email',
+            data: { user }
         })
 
     } catch (error) {
