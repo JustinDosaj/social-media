@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
+import { validateLoginForm } from '@/utils/validateForms';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function LoginScreen() {
   const { login } = useAuth()
 
   const handleLogin = async () => {
-    if (!validateForm()) return;
+    if (!validateLoginForm({email, password})) return;
 
     try {
       await login(email, password)
@@ -33,26 +34,6 @@ export default function LoginScreen() {
       Alert.alert('Error', 'Login failed. Please try again.');
     }
   }
-
-  const validateForm = () => {
-    if (!email || !password ) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return false;
-    }
-
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters long');
-      return false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      Alert.alert('Error', 'Please enter a valid email address');
-      return false;
-    }
-
-    return true;
-  };
 
   const handleGoogleSignup = async () => {
     // Add your Google signup logic here

@@ -8,12 +8,12 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   ScrollView,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/hooks/useAuth';
+import { validateSignUpForm, getPasswordStrength } from '@/utils/validateForms';
 
 export default function SignupScreen() {
   const [email, setEmail] = useState('');
@@ -27,34 +27,8 @@ export default function SignupScreen() {
   const { signUp } = useAuth()
 
   const handleSignup = async () => {
-    if (!validateForm()) return;
+    if (!validateSignUpForm({email, password, confirmPassword})) return;
     await signUp(email, password)
-  };
-
-
-  const validateForm = () => {
-    if (!email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return false;
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return false;
-    }
-
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters long');
-      return false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      Alert.alert('Error', 'Please enter a valid email address');
-      return false;
-    }
-
-    return true;
   };
 
   const handleGoogleSignup = () => {
@@ -62,17 +36,7 @@ export default function SignupScreen() {
     console.log('Google signup attempt');
   };
 
-  const getPasswordStrength = () => {
-    if (password.length === 0) return { strength: 0, text: '', color: '#E5E7EB' };
-    if (password.length < 6) return { strength: 1, text: 'Weak', color: '#EF4444' };
-    if (password.length < 8) return { strength: 2, text: 'Fair', color: '#F59E0B' };
-    if (password.length >= 8 && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      return { strength: 3, text: 'Strong', color: '#10B981' };
-    }
-    return { strength: 2, text: 'Fair', color: '#F59E0B' };
-  };
-
-  const passwordStrength = getPasswordStrength();
+  const passwordStrength = getPasswordStrength(password);
 
   return (
     <SafeAreaView style={styles.container}>
