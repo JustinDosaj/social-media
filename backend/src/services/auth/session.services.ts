@@ -3,6 +3,7 @@ import { cognitoClient, CLIENT_ID } from "../../clients/cognito";
 import { InitiateAuthCommandInput, InitiateAuthCommand, GlobalSignOutCommand, GetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 
 export async function login({email, password}: ISignIn) {
+    
     const params: InitiateAuthCommandInput = {
         AuthFlow: "USER_PASSWORD_AUTH",
         ClientId: CLIENT_ID,
@@ -16,7 +17,7 @@ export async function login({email, password}: ISignIn) {
 
     const response = await cognitoClient.send(command)
 
-    return response
+    return response.AuthenticationResult
 }
 
 export async function logout(accessToken: string) {
