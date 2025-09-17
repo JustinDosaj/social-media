@@ -49,8 +49,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const { user } = await AuthServices.login(email, password)
 
             const loggedInUser: IUser = {
-                email,
-                token: user.accessToken
+                email: user.email,
+                token: user.accessToken,
+                sub: user.sub,
+                expiresIn: user.expiresIn,
+                expiresAt: user.expiresAt
             }
 
             setUser(loggedInUser)
