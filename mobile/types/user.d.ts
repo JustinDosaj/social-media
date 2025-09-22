@@ -2,6 +2,6 @@ export interface IUser {
     email: string,
     token: string,
     sub: string,
-    expiresIn: number,
-    expiresAt: number
+    expiresIn?: number,
+    expiresAt?: number
 }

@@ -22,6 +22,8 @@ export async function signUp(email: string, password: string) {
     if (!payload.success) {
         throw new Error(payload.message || "Sign Up Failed")
     }
+
+    return payload.data
 }
 
 export async function confirmSignUp(email: string, code: string) {

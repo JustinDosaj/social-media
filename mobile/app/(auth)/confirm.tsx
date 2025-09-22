@@ -17,7 +17,6 @@ import { useAuth } from '@/hooks/useAuth';
 export default function ConfirmSignupScreen() {
 
   const [code, setCode] = useState('');
-
   const { confirmSignUp, user } = useAuth();
 
   const handleConfirm = async () => {
@@ -25,6 +24,7 @@ export default function ConfirmSignupScreen() {
       console.log('Code must be 6 digits');
       return;
     }
+
     await confirmSignUp(user?.email || '', code);
     router.push('/(tabs)'); // redirect to login after success
   };
