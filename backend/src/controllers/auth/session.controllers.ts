@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { APIError } from "../../config/error";
 import { AuthServices } from "../../services/auth";
 import { IUser } from "../../types/auth";
-import { decodeJWT } from "../../utils/decode";
 
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
@@ -19,17 +18,14 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
             throw new APIError("Failed to authenticate user", 400)
         }
 
-        const session = decodeJWT(response.IdToken || '')
-
-        console.log(session)
-
         const user = {
-            accessToken: response.AccessToken,
-            refreshToken: response.RefreshToken,
-            expiresIn: response.ExpiresIn,
-            expiresAt: session.exp,
-            sub: session.sub,
-            email: session.email,
+            email: response.email,
+            username: response.username,
+            isVerified: response.isVerified,
+            sub: response.sub,
+            accessToken: response.accessToken,
+            refreshToken: response.refreshToken,
+            expiresIn: response.expiresIn,
         }
 
         res.status(200).json({
@@ -39,6 +35,8 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         })
         
     } catch (error) {
+
+        console.log(error)
         next(error)
     }
 }
@@ -89,7 +87,6 @@ export async function getUser(req: Request, res: Response, next: NextFunction): 
         const user: IUser = {
             email: attributeMap.email || '',
             sub: attributeMap.sub || '',
-            username: response.Username || ''
         }
 
         res.status(200).json({

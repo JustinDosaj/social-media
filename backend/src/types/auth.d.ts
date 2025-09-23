@@ -16,5 +16,4 @@ export interface ISignIn {
 export interface IUser {
     email: string,
     sub: string,
-    username: string
 }
